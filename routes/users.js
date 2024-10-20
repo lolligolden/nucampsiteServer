@@ -4,19 +4,31 @@ const passport = require('passport');
 const authenticate = require('../authenticate');
 
 const router = express.Router();
-
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.route('/') 
+.get(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => { 
+    User.find()
+    .then(User => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(User);
+    })
+    .catch(err => {
+      err = new Error('You are not authorized to perform this operation');
+        err.status = 403;
+        return next(err);
+    })
+  });
 
+  
+ 
 router.post('/signup', (req, res) => {
   const user = new User({ username: req.body.username });
 
   User.register(user, req.body.password)
       .then(registeredUser => {
         if (req.body.firstname) {
-          registeredUser.firstname = req.body.firstname;
+          registeredUser.firstname = req.body.firstname
         }
         if (req.body.lastname) {
           registeredUser.lastname = req.body.lastname;

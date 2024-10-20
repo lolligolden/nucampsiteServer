@@ -15,7 +15,7 @@ connect.then(() => console.log('Connected correcly to server'),
 );
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users');
 const campsiteRouter = require('./routes/campsiteRouter');
 const promotionRouter = require('./routes/promotionRouter');
 const partnerRouter = require('./routes/partnerRouter');
